@@ -3,7 +3,8 @@ This folder contains the scripts and functions used for analyzing time-series fl
 
 ## Installation instructions
 All codes run on Python 3.12.2.
-The following packages need to be installed prior to running the code
+We recommend using a Python IDE to run the main script. 
+The following packages need to be installed in the environment prior to running the code
 - os
 - re
 - pandas
@@ -13,12 +14,12 @@ The following packages need to be installed prior to running the code
 - sklearn
 - seaborn
 - statsmodels
- 
 
 ## Usage instructions 
 
 ### Overview 
 All code can be run through "scripts/main_analysis.py" that contains sections of code. 
+In the Python IDE, navigate to scripts/ directory and open main_analysis.py.
 
 ### Input files
 The code expects to find 2 kinds of data files
@@ -26,5 +27,7 @@ The code expects to find 2 kinds of data files
    - The sample master files are in "sample-data/sample-preprocessed"
 2. npy files that contain post-Suite2P data for deconvolved spike data.
    - The sample npy files are in "sample-data/sample-raw"
-  
- 
+
+### Running the script
+Execute the script section by section to analyze the sample data. 
+Please read the comments in each section for instructions. 

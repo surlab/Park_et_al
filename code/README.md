@@ -18,8 +18,10 @@ The following packages need to be installed in the environment prior to running 
 ## Usage instructions 
 
 ### Overview 
-All code can be run through "scripts/main_analysis.py" that contains sections of code. 
+All analysis code can be run through "scripts/main_analysis.py" except for SVM-decoding analysis and GLM analysis. 
 In the Python IDE, navigate to scripts/ directory and open main_analysis.py.
+For SVM-decoding analysis, navigate to scripts/ directory and open batch_decoder_gratings.py or batch_decoder_movies.py.
+For GLM analysis, navigate to scripts/ directory and open ...
 
 ### Input files
 The code expects to find 2 kinds of data files

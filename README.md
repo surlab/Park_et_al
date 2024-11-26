@@ -7,9 +7,9 @@ This repository contains the code and sample data used in the manuscript titled 
    - preprocessing/: contains preprocessing MATLAB scripts
    - analysis/: contains the main scripts used for preprocessed data analysis and visualization
    - functions/: contains the reusable functions used in the main scripts
-2. Sample data
-   - sample_raw/: example of raw two-photon imaging data
-   - sample_preprocessed/: example of processed data
+2. Sample-data
+   - sample-raw/: example of raw two-photon imaging data
+   - sample-preprocessed/: example of processed data
 3. Results
-   - sample_output/: example output files from analysis scripts
-   - sample_plots/: example plots from analysis scripts 
+   - sample-output/: example output files from analysis scripts
+   - sample-plots/: example plots from analysis scripts 

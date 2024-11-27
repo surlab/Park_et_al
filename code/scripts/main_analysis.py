@@ -4,12 +4,11 @@ Created on Tue Mar 26 15:33:23 2024
 
 @author: jihop
 
-# Basic analysis using preprocessed outputs (OSI, DSI, Rel, etc....)
-# For visualizing DFFs
+# Main analysis script for analyzing preprocessed data and plotting figures
 
 """
 
-# Import the functions that I need 
+# Import packages needed for running the code
 import os
 import numpy as np
 import pandas as pd
@@ -20,19 +19,17 @@ import palettable
 import pingouin as pg
 from scipy.interpolate import interp1d
 from functions import extract,compute,plot,glm
-# from sklearn.cluster import KMeans
 
 plt.rcParams['figure.max_open_warning'] = 0
 
 
 #%% Define paths
 
-# Windows
+# Path to data 
 datapath = os.path.join('G:','My Drive','mrcuts','data','master','')
+# Define 
 savepath = os.path.join('G:','My Drive','mrcuts','analysis','')
 plotpath = os.path.join('G:','My Drive','mrcuts','analysis','plots','new','')
-# plotpath = os.path.join('D:','analysis','mrcuts','plots','') # New plot path for saving plots on the computer (D:Data)
-# plotpath = os.path.join('G:','My Drive','mrcuts','analysis','plots','new_tam','')
 
 # MAC
 datapath = os.path.join('/Users','jihopark','Google Drive','My Drive','mrcuts','data','master','')

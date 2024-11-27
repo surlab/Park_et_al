@@ -31,7 +31,7 @@ The following packages need to be installed in the environment prior to running 
 4. batch_decoder_movies.py
    - Contains code for running SVM-based decoding analysis for **natural movies** and creating CSV outputs for each session
 5. batch_glm_movies.py
-   - COntains code for running GLM analysis of single neuron encoding of population activity for **natural movies**
+   - Contains code for running GLM analysis of single neuron encoding of population activity for **natural movies**
 6. decoder_eval.py
    - Contains code for evaluation and visualization of population decoding performance
 7. glm_eval.py
@@ -41,18 +41,19 @@ The following packages need to be installed in the environment prior to running 
 Each script expects a different kind of input files.
 1. main_analysis.py and batch_glm_movies requires master files that contain MATLAB structures.
    - The sample master files are in "sample-data/sample-preprocessed"
-   - Each file ends with "
-2. spks.analysis.py requires npy files that contain post-Suite2P data for deconvolved spike data.
+   - Each file ends with "_master.mat"
+2. spks.analysis.py requires a set of npy files that contain deconvolved spike data, cell index.
    - The sample npy files are in "sample-data/sample-raw"
+   - Each session contains a set of npy files including "spks.npy" and "iscell.npy" 
 3. batch_decoder_gratings.py and batch_decoder_movies.py require csv files that contain nUnits x dFF data for each session
    - The sample csv files are in "sample-data/sample-csv"
    - Each file ends with "_neuro.csv"
 5. decoder_eval.py requires csv files that contain the AUC scores of decoding performance for each session
    - The sample csv files are in "sample-data/sample-decoder"
-   - Each file ends with "_neuro.csv"
+   - Each file ends with "_auc_scores.csv"
 6. glm_eval.py requires result files that contain MATLAB structures.
    - The sample result files are in "sample-data/sample-glm"
-   - 
+   - Each file ends with "_results.mat"
 
 ### Running the script
 For each script, open a Python IDE, nagivate to "scripts/" directory and open each script. 

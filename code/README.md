@@ -22,7 +22,7 @@ The following packages need to be installed in the environment prior to running 
 "functions/" contains helper functions used in the main scripts in "scripts/".  
 
 
-"scripts/" contains 7 different files.
+"scripts/" contains 8 different files.
 1. main_analysis.py
    - Contains code for basic visualization of 2P calcium activity 
    - Computes and plots neuronal properties including maximum response magnitude, orientation selectivity index, and reliability index 
@@ -36,8 +36,10 @@ The following packages need to be installed in the environment prior to running 
    - Contains code for running GLM analysis of single neuron encoding of population activity for **natural movies**
 6. decoder_eval.py
    - Contains code for evaluation and visualization of population decoding performance
-7. glm_eval.py
+7. glm_movies_eval.py
    - Contains code for evalulation and visualization of single neuron GLM performance for **natural movies**
+8. glm_gratings_eval.py
+   - Contains code for evalulation and visualization of single neuron encoding property of **drifting gratings, pupil dynamics, and movement**
 
 
 "glm_gratings/" contains 1 MATLAB script and 1 folder containing helper MATLAB functions.
@@ -60,7 +62,10 @@ Each script expects a different kind of input files.
 5. decoder_eval.py requires csv files that contain the AUC scores of decoding performance for each session
    - The sample csv files are in "sample-data/sample-decoder"
    - Each file ends with "_auc_scores.csv"
-6. glm_eval.py requires result files that contain MATLAB structures.
+6. glm_movies_eval.py requires result files that contain MATLAB structures.
+   - The sample result files are in "sample-data/sample-glm"
+   - Each file ends with "_glm_results_with_weights.csv"
+7. glm_gratings_eval.py requires
    - The sample result files are in "sample-data/sample-glm"
    - Each file ends with "_results.mat"
 

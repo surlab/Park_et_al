@@ -19,10 +19,8 @@ The following packages need to be installed in the environment prior to running 
 ## Usage instructions 
 
 ### Overview 
-"functions/" contains helper functions used in the main scripts in "scripts/".  
-
-
-"scripts/" contains 8 different files.
+#### "functions/" contains helper functions used in the main scripts in "scripts/".
+#### "scripts/" contains 8 different files.
 1. main_analysis.py
    - Contains code for basic visualization of 2P calcium activity 
    - Computes and plots neuronal properties including maximum response magnitude, orientation selectivity index, and reliability index 
@@ -41,8 +39,7 @@ The following packages need to be installed in the environment prior to running 
 8. glm_gratings_eval.py
    - Contains code for evalulation and visualization of single neuron encoding property of **drifting gratings, pupil dynamics, and movement**
 
-
-"glm_gratings/" contains 1 MATLAB script and 1 folder containing helper MATLAB functions.
+#### "glm_gratings/" contains 1 MATLAB script and 1 folder containing helper MATLAB functions.
 1. run_script.m
    - Runs the code for single neuron GLM encoding model of drifting gratings, pupil dynamics, and lomotion.
 2. "+glm_/"
@@ -70,6 +67,6 @@ Each script expects a different kind of input files.
    - Each file ends with "_results.mat"
 
 ### Running the script
-For each script, open a Python IDE, nagivate to "scripts/" directory and open each script.  
+For each script, open a Python IDE (or MATLAB for "glm_gratings/"), nagivate to "scripts/" directory and open each script.  
 Each script is commented in each section for instructions. 
 

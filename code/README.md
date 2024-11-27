@@ -20,6 +20,8 @@ The following packages need to be installed in the environment prior to running 
 
 ### Overview 
 "functions/" contains helper functions used in the main scripts in "scripts/".  
+
+
 "scripts/" contains 7 different files.
 1. main_analysis.py
    - Contains code for basic visualization of 2P calcium activity 
@@ -35,7 +37,9 @@ The following packages need to be installed in the environment prior to running 
 6. decoder_eval.py
    - Contains code for evaluation and visualization of population decoding performance
 7. glm_eval.py
-   - Contains code for evalulation and visualization of single neuron GLM performance
+   - Contains code for evalulation and visualization of single neuron GLM performance for **natural movies**
+
+
 
 ### Input files
 Each script expects a different kind of input files.

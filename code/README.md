@@ -50,7 +50,7 @@ Each script expects a different kind of input files.
 1. main_analysis.py and batch_glm_movies requires master mat files that contain MATLAB structures.
    - The sample master files are in "sample-data/master"
    - Each file ends with "_master.mat"
-2. spks.analysis.py requires a set of npy files that contain deconvolved spike data, cell index.
+2. spks_analysis.py requires a set of npy files that contain deconvolved spike data, cell index.
    - The sample npy files are in "sample-data/raw"
    - Each session contains a set of npy files including "spks.npy" and "iscell.npy" 
 3. batch_decoder_gratings.py and batch_decoder_movies.py require csv files that contain nUnits x dFF data for each session

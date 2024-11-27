@@ -2,8 +2,8 @@
 This folder contains the scripts and functions used for analyzing time-series fluorescence data collected during 2P imaging together with pupil dynamics and movement data.
 
 ## Installation instructions
-All codes run on Python 3.12.2.
-We recommend using a Python IDE to run the main script. 
+All codes run on Python 3.12.2. or MATLAB 2024a.
+For Python, we recommend using a Python IDE (ex. Spyder) to run the main script. 
 The following packages need to be installed in the environment prior to running the code
 - os
 - re
@@ -19,18 +19,42 @@ The following packages need to be installed in the environment prior to running 
 ## Usage instructions 
 
 ### Overview 
-All analysis code can be run through "scripts/main_analysis.py" except for SVM-decoding analysis and GLM analysis. 
-In the Python IDE, navigate to scripts/ directory and open main_analysis.py.
-For SVM-decoding analysis, navigate to scripts/ directory and open batch_decoder_gratings.py or batch_decoder_movies.py.
-For GLM analysis, navigate to scripts/ directory and open ...
+"functions/" contains helper functions used in the main scripts in "scripts/"
+"scripts/" contains 7 different files.
+1. main_analysis.py
+   - Contains code for basic visualization of 2P calcium activity 
+   - Computes and plots neuronal properties including maximum response magnitude, orientation selectivity index, and reliability index 
+2. spks_analysis.py
+   - Contains code for extracting deconvolved spikes from Suite2P processing and computing spiking activity-based analyses including firing rates, pairwise correlations, signal and noise correlation
+3. batch_decoder_gratings.py
+   - Contains code for running SVM-based decoding analysis for **drifting gratings** and creating CSV outputs for each session
+4. batch_decoder_movies.py
+   - Contains code for running SVM-based decoding analysis for **natural movies** and creating CSV outputs for each session
+5. batch_glm_movies.py
+   - COntains code for running GLM analysis of single neuron encoding of population activity for **natural movies**
+6. decoder_eval.py
+   - Contains code for evaluation and visualization of population decoding performance
+7. glm_eval.py
+   - Contains code for evalulation and visualization of single neuron GLM performance
 
 ### Input files
-The code expects to find 2 kinds of data files
-1. Master files that contain MATLAB structures.
+Each script expects a different kind of input files.
+1. main_analysis.py and batch_glm_movies requires master files that contain MATLAB structures.
    - The sample master files are in "sample-data/sample-preprocessed"
-2. npy files that contain post-Suite2P data for deconvolved spike data.
+   - Each file ends with "
+2. spks.analysis.py requires npy files that contain post-Suite2P data for deconvolved spike data.
    - The sample npy files are in "sample-data/sample-raw"
+3. batch_decoder_gratings.py and batch_decoder_movies.py require csv files that contain nUnits x dFF data for each session
+   - The sample csv files are in "sample-data/sample-csv"
+   - Each file ends with "_neuro.csv"
+5. decoder_eval.py requires csv files that contain the AUC scores of decoding performance for each session
+   - The sample csv files are in "sample-data/sample-decoder"
+   - Each file ends with "_neuro.csv"
+6. glm_eval.py requires result files that contain MATLAB structures.
+   - The sample result files are in "sample-data/sample-glm"
+   - 
 
 ### Running the script
-Execute the script section by section to analyze the sample data. 
-Please read the comments in each section for instructions. 
+For each script, open a Python IDE, nagivate to "scripts/" directory and open each script. 
+Each script is commented in each section for instructions. 
+

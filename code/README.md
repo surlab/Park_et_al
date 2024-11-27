@@ -65,6 +65,9 @@ Each script expects a different kind of input files.
 7. glm_gratings_eval.py requires mat files that contain MATLAB structures. 
    - The sample result files are in "sample-data/glm"
    - Each file ends with "_results.mat"
+8. run_script.m in "glm_gratings/" requires mat files that contain MATLAB structures.
+   - The sample mat files are in "sample-data/glm"
+   - Each file ends with "_data.mat"
 
 ### Running the script
 For each script, open a Python IDE (or MATLAB for "glm_gratings/"), nagivate to "scripts/" directory and open each script.  

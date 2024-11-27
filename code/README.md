@@ -40,6 +40,11 @@ The following packages need to be installed in the environment prior to running 
    - Contains code for evalulation and visualization of single neuron GLM performance for **natural movies**
 
 
+"glm_gratings/" contains 1 MATLAB script and 1 folder containing helper MATLAB functions.
+1. run_script.m
+   - Runs the code for single neuron GLM encoding model of drifting gratings, pupil dynamics, and lomotion.
+2. "+glm_/"
+   - Contains the helper functions used in run_script.m
 
 ### Input files
 Each script expects a different kind of input files.

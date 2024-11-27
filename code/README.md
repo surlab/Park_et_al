@@ -14,6 +14,7 @@ The following packages need to be installed in the environment prior to running 
 - sklearn
 - seaborn
 - statsmodels
+- palettable
 
 ## Usage instructions 
 

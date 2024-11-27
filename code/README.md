@@ -50,7 +50,7 @@ The following packages need to be installed in the environment prior to running 
 
 ### Input files
 Each script expects a different kind of input files.
-1. main_analysis.py and batch_glm_movies requires master files that contain MATLAB structures.
+1. main_analysis.py and batch_glm_movies requires master mat files that contain MATLAB structures.
    - The sample master files are in "sample-data/sample-preprocessed"
    - Each file ends with "_master.mat"
 2. spks.analysis.py requires a set of npy files that contain deconvolved spike data, cell index.
@@ -62,10 +62,10 @@ Each script expects a different kind of input files.
 5. decoder_eval.py requires csv files that contain the AUC scores of decoding performance for each session
    - The sample csv files are in "sample-data/sample-decoder"
    - Each file ends with "_auc_scores.csv"
-6. glm_movies_eval.py requires result files that contain MATLAB structures.
+6. glm_movies_eval.py requires csv files that contain GLM results.
    - The sample result files are in "sample-data/sample-glm"
    - Each file ends with "_glm_results_with_weights.csv"
-7. glm_gratings_eval.py requires
+7. glm_gratings_eval.py requires mat files that contain MATLAB structures. 
    - The sample result files are in "sample-data/sample-glm"
    - Each file ends with "_results.mat"
 

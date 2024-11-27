@@ -19,7 +19,7 @@ The following packages need to be installed in the environment prior to running 
 ## Usage instructions 
 
 ### Overview 
-"functions/" contains helper functions used in the main scripts in "scripts/"
+"functions/" contains helper functions used in the main scripts in "scripts/".  
 "scripts/" contains 7 different files.
 1. main_analysis.py
    - Contains code for basic visualization of 2P calcium activity 
@@ -56,6 +56,6 @@ Each script expects a different kind of input files.
    - Each file ends with "_results.mat"
 
 ### Running the script
-For each script, open a Python IDE, nagivate to "scripts/" directory and open each script. 
+For each script, open a Python IDE, nagivate to "scripts/" directory and open each script.  
 Each script is commented in each section for instructions. 
 

@@ -7,8 +7,13 @@ Make sure to specify the datapath in each script in "code/scripts/" to each of t
 
 1. master
    - Contains the master MATLAB files that end with "_master.mat"
+   - Each master file contains a nested MATLAB structure
+     | This   | is    | a       |
+     | ---    | ---   | ---     |
+     | simple | table | example |
+     
 2. raw
-   - Contains npy files in each session folder
+   - Contains npy files (spks.npy, iscell.npy) in each session folder
 3. glm
    - Contains data MATLAB files that end with "_data.mat" which serve as input files for run_script.m found in "scripts/glm_gratings/"
 4. decoder

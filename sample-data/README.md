@@ -25,5 +25,5 @@ Make sure to specify the datapath in each script in "code/scripts/" to each of t
       - **TE** is a 1 x 1 structure with 3 fields containing direction (1 x 128 matrix containing labels), nTrials, and dt (time difference between two data points).
       - **t** is a 1 x 49 matrix containing time points for time window [-1 2].
 4. "decoder/"
-   - Contaings csv files that are outputs of batch_decoder_gratings.py or batch_decoder_movies.py
+   - Contains 2 folders "gratings/" and "movies/" which constain csv files that are outputs of batch_decoder_gratings.py or batch_decoder_movies.py
    - Files serve as input files for decoder_eval.py found in "scripts/"

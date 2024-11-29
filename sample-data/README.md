@@ -7,10 +7,11 @@ Make sure to specify the datapath in each script in "code/scripts/" to each of t
 
 1. master
    - Contains the master MATLAB files that end with "_master.mat"
+   - Generated from custom-made preprocessing MATLAB scripts that preprocesses and combines 2P fluorescence data, pupil dynamics, and movement. 
    - Each master file contains a nested MATLAB structure
      | session_info   | data    | analysis       |
      | ---    | ---   | ---     |
-     | simple | table | example |
+     | Contains basic information including 2P imaging parameters| Contains the raw and preprocessed neuronal, pupil, and wheel data | Contains the basic properties analyzed based on the visual stimulus type (ex. visual responsiveness, OSI, reliability index) |
      
 2. raw
    - Contains npy files (spks.npy, iscell.npy) in each session folder

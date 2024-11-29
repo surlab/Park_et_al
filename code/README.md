@@ -47,7 +47,7 @@ The following packages need to be installed in the environment prior to running 
 
 ### Input files
 Each script expects a different kind of input files.
-1. main_analysis.py, batch_decoder_gratings.py, batch_decoder_movies.py, and batch_glm_movies requires master mat files that contain MATLAB structures.
+1. main_analysis.py, batch_decoder_gratings.py, batch_decoder_movies.py, and batch_glm_movies.py requires master mat files that contain MATLAB structures.
    - The sample master files are in "sample-data/master"
    - Each file ends with "_master.mat"
 2. spks_analysis.py requires a set of npy files that contain deconvolved spike data, cell index.

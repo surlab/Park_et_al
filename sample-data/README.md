@@ -1,5 +1,5 @@
 # Sample-data 
-We provide sample data, one FOV from each animal consisting of 3 sessions (spontaneous activity, gratings, movies), to run analysis scripts used in the manuscript. 
+We provide sample data, one FOV from each animal consisting of 3 sessions (spontaneous activity, gratings, movies), to run analysis scripts used in the manuscript.
 
 ## Overview
 This folder contains 4 folders with differentially formatted sample data for each analysis script.

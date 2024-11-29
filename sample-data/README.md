@@ -19,10 +19,11 @@ Make sure to specify the datapath in each script in "code/scripts/" to each of t
    - 
 3. "glm/"
    - Contains data MATLAB files that end with "_data.mat" which serve as input files for run_script.m found in "scripts/glm_gratings/"
-   - Each file has been adapted from the master files to extract only necessary variables for run_script.m
+   - Each file has been formatted from the master files to extract only necessary variables and reshape the data for run_script.m
    - Each file contains 2 structures and 1 matrix
-   - **D** is a 1 x 1 structure with [nUnits + 2] fields containing individual neuronal calcium data, pupil dynamics, and speed (movement). Each field (variable) contains a 1 x 128 cell where the entire trace is reshaped by number of trials.
-   - **TE** is 
+      - **D** is a 1 x 1 structure with [nUnits + 2] fields containing individual neuronal calcium data, pupil dynamics, and speed (movement). Each field (variable) contains a 1 x 128 cell where the entire trace is reshaped by number of trials.
+      - **TE** is a 1 x 1 structure with 3 fields containing direction (1 x 128 matrix containing labels), nTrials, and dt (time difference between two data points).
+      - **t** is a 1 x 49 matrix containing time points for time window [-1 2].
 4. "decoder/"
    - Contaings csv files that are outputs of batch_decoder_gratings.py or batch_decoder_movies.py
    - Files serve as input files for decoder_eval.py found in "scripts/"

@@ -25,9 +25,9 @@ Make sure to specify the datapath in each script in "code/scripts/" to each of t
       - **TE** is a 1 x 1 structure with 3 fields containing direction (1 x 128 matrix containing labels), nTrials, and dt (time difference between two data points).
       - **t** is a 1 x 49 matrix containing time points for time window [-1 2].
 4. "decoder/"
-   - Contains csv files that are outputs of batch_decoder_gratings.py or batch_decoder_movies.py
+   - Contains csv files that are summarized outputs of batch_decoder_gratings.py or batch_decoder_movies.py
    - Files serve as input files for decoder_eval.py found in "scripts/"
-   - Each file ends with "_neuro_auc_scores.csv" which has a dataframe containing
-      - | AUC   | neuIteration    | Pop Size       |
-     | ---    | ---   | ---     |
-     | Contains basic information including 2P imaging parameters| Contains the raw and preprocessed neuronal, pupil, and wheel data | Contains the basic properties analyzed based on the visual stimulus type (ex. visual responsiveness, OSI, reliability index) |
+   - Each file ends with "_AUC_results_DF.csv" which has a dataframe containing
+      - | AUC   | Pop Size | Group | Animal | Date | Session
+     | --- | ---   | ---  | --- | --- | --- | --- |
+     | AUROC scores| number of units used for training | group information (i.e. control, exp) | animal ID | date | session name|

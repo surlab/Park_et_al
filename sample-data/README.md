@@ -1,5 +1,5 @@
 # Sample-data 
-We provide sample data, one FOV from each animal consisting of 3 sessions (spontaneous activity, gratings, movies), to run analysis scripts used in the manuscript.
+We provide sample data, one FOV from each animal consisting of 3 sessions (spontaneous activity, gratings, movies), to run analysis scripts used in the manuscript, unless specified otherwise in the README.md file in each folder.
 
 ## Overview
 This folder contains 4 folders with differentially formatted sample data for each analysis script.
@@ -15,8 +15,13 @@ Make sure to specify the datapath in each script in "code/scripts/" to each of t
    - Each analysis script extracts relevant information from the nested structure for further analyses 
 
 2. "spks/"
-   - Contains npy files (spks.npy, iscell.npy) in each session folder
-   - 
+   - Contains a single csv file that contains the DataFrame for deconvolved spikes data from all sessions.
+   - This file serves as an input file for spks_analysis.py in "code/scripts/".
+   - The dataframe contains 5 columns:
+     | Session  | Spks     | zSpks    | Date     | animalID |
+     |----------|----------|----------|----------|----------|
+     | Session name  | Direct post Suite2p output  | z-scored spks data  | Imaging date | animal ID   |
+
 3. "glm/"
    - Contains data MATLAB files that end with "_data.mat" which serve as input files for run_script.m found in "scripts/glm_gratings/"
    - Each file has been formatted from the master files to extract only necessary variables and reshape the data for run_script.m

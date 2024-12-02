@@ -7,7 +7,7 @@ This repository contains the code and sample data used in the manuscript titled 
    - scripts/: contains the main scripts used for preprocessed data analysis and visualization
    - functions/: contains the reusable functions used in the main scripts
 2. Sample-data
-   - raw/: example of raw two-photon imaging data containing csv files
+   - spks/: single csv file containing deconvolved spiking activity data from all sessions
    - master/: example of preprocessed data containing MATLAB files
    - glm/: example GLM output files
    - decoder/: example SVM-decoder output files 

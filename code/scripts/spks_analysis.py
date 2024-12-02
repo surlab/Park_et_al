@@ -20,7 +20,7 @@ from functions import extract,compute
 # Make sure to change the information accordingly
 homepath = os.path.join('C:','Users','jihop','Documents','Park_et_al_2024','')
 # Directory containing data files
-datapath = os.path.join(homepath,'sample-data','sample-raw','')
+datapath = os.path.join(homepath,'sample-data','spks','')
 # Directory to save output files
 savepath = os.path.join(homepath,'results','sample-output','')
 # Directory to save plots 
@@ -28,8 +28,8 @@ plotpath = os.path.join(homepath,'results','sample-plots','')
 
 #%% Load deconvolved spiking data 
 
-# Loads spike data of all sessions (spo, grat, movies)
-dfSpks = extract.load_spks_data(datapath)
+# Loads spike data of all sessions from datapath
+dfSpks = pd.read_csv(datapath+'spks_data.csv')
 
 # Set the keyword to filter out sessions (ex. 'spo', 'grat')
 keyword = 'spo'

@@ -1,5 +1,5 @@
 # Sample-data 
-We provide sample data, one FOV from each animal consisting of 3 sessions (spontaneous activity, gratings, movies), to run analysis scripts used in the manuscript, unless specified otherwise in the README.md file in each folder.
+We provide sample 2P calcium imaging data, one FOV from each animal consisting of 3 sessions (spontaneous activity, gratings, movies), to run analysis scripts used in the manuscript, except for "spks\" and "decoder\" which contain a single file combining data from all sessions.
 
 ## Overview
 This folder contains 4 folders with differentially formatted sample data for each analysis script.

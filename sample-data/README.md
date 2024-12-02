@@ -31,3 +31,6 @@ Make sure to specify the datapath in each script in "code/scripts/" to each of t
       - | AUC   | Pop Size | Group | Animal | Date | Session
         | --- | ---   | ---  | --- | --- | --- | 
         | AUROC scores| number of units used for training | group information (i.e. control, exp) | animal ID | date | session name|
+
+## User instructions
+Each script in "code/scripts/" will call for specific input files listed above. 

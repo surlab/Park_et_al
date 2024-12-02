@@ -14,7 +14,7 @@ Make sure to specify the datapath in each script in "code/scripts/" to each of t
      | Contains basic information including 2P imaging parameters| Contains the raw and preprocessed neuronal, pupil, and wheel data | Contains the basic properties analyzed based on the visual stimulus type (ex. visual responsiveness, OSI, reliability index) |
    - Each analysis script extracts relevant information from the nested structure for further analyses 
 
-2. "raw/"
+2. "spks/"
    - Contains npy files (spks.npy, iscell.npy) in each session folder
    - 
 3. "glm/"

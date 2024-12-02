@@ -16,6 +16,22 @@ The following packages need to be installed in the environment prior to running 
 - statsmodels
 - palettable
 
+"functions/" needs to be installed as a module before running codes in "scripts/".  
+1. To install "functions/",  open Anaconda terminal and activate the environment where all packages above are installed in.
+```
+conda activate spyder-env
+```
+2. Navigate to the parent directory that contains the "functions/" folder, which is within where the repository has been cloned.
+```
+cd 'path\to\the\parent\directory'
+```
+3. Make sure that both "functions\" and setup.py exist in the directory and run pip install.
+```
+pip install .
+```
+4. You should see the following message "Successfully installed functions-1.0.0". Now functions should be importable in other scripts.
+
+
 ## Usage instructions 
 
 ### Overview 

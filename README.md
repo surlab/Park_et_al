@@ -3,14 +3,14 @@ This repository contains the code and sample data used in the manuscript titled 
 
 ## Repository contents 
 
-1. Code
+1. code
    - scripts\: contains the main scripts for data analysis and visualization
    - functions\: contains the reusable functions used in the main scripts
-2. Sample-data
+2. sample-data
    - spks\: single pickle file containing deconvolved spiking activity data from all sessions
    - master\: example of preprocessed data containing MATLAB files
    - glm\: example input MATLAB files 
    - decoder\: example SVM-decoder output files 
-3. Results
+3. results
    - sample-output\: example output files from analysis scripts
    - sample-plots\: example plots from analysis scripts 

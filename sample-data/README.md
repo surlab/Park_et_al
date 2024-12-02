@@ -33,7 +33,7 @@ Make sure to specify the datapath in each script in "code/scripts/" to each of t
    - Contains csv files that are summarized outputs of batch_decoder_gratings.py or batch_decoder_movies.py
    - Files serve as input files for decoder_eval.py found in "scripts/"
    - Each file ends with "_AUC_results_DF.csv" which has a dataframe containing
-      - | AUC   | Pop Size | Group | Animal | Date | Session
+      - | AUC   | Pop Size | Group | animalID | Date | Session
         | --- | ---   | ---  | --- | --- | --- | 
         | AUROC scores| number of units used for training | group information (i.e. control, exp) | animal ID | date | session name|
 

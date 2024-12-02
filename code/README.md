@@ -76,7 +76,7 @@ Each script expects a different kind of input files.
    - The sample result files are in "sample-data\glm"
    - Each file ends with "_glm_results_with_weights.csv"
 5. glm_gratings_eval.py requires mat files that contain MATLAB structures. 
-   - The sample result files are in "sample-data\glm"
+   - The sample result files are in "sample-output\glm"
    - Each file ends with "_results.mat"
 6. run_script.m in "glm_gratings\" requires mat files that contain MATLAB structures.
    - The sample mat files are in "sample-data\glm"

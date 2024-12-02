@@ -5,6 +5,7 @@ Created on Wed Nov 27 16:03:59 2024
 @author: jihop
 """
 
+
 # Import packages needed for running the code
 import os
 import pandas as pd
@@ -18,7 +19,7 @@ from functions import compute
 
 # Home directory where the repository is cloned 
 # Make sure to change the information accordingly
-homepath = os.path.join('C:','Users','jihop','Documents','Park_et_al_2024','')
+homepath = os.path.join('C:\\','Users','jihop','Documents','GitHub','Park_et_al_2024','')
 # Directory containing data files
 datapath = os.path.join(homepath,'sample-data','decoder','')
 # Directory to save output files
@@ -30,8 +31,9 @@ plotpath = os.path.join(homepath,'results','sample-plots','')
 
 dfGrat = pd.read_csv(datapath+'Decoder_gratings_AUC_results_DF.csv')
 
-#%% T tests at each pop size
+#%% Run t tests at each population size between groups
 
+# Set a limit to the maximum population size for comparison of all sessions
 popsize= 25
 
 # List of 'Pop Size' values to iterate over
@@ -85,7 +87,7 @@ plt.suptitle(f'Gratings mean AUC score box plot (n<={popsize})', fontsize=13, y=
 plt.ylim(0.3, 1.0)  # Set y-axis limits
 plt.text(0.5, 0.25, f'nSessionControl: {nSessionControl}', horizontalalignment='center', verticalalignment='center', transform=plt.gca().transAxes)
 plt.text(0.5, 0.20, f'nSessionExp: {nSessionExp}', horizontalalignment='center', verticalalignment='center', transform=plt.gca().transAxes)
-# plt.savefig(plotpath+'Gratings mean AUC score box plot.svg')
+# plt.savefig(plotpath+'Gratings mean AUC score box plot.png')
 plt.show()
 
 sns.catplot(data=dfGrat[dfGrat['Pop Size'] <=popsize], x='Pop Size', y='AUC', 
@@ -93,14 +95,14 @@ sns.catplot(data=dfGrat[dfGrat['Pop Size'] <=popsize], x='Pop Size', y='AUC',
             errorbar=None)
 
 plt.suptitle(f'Gratings mean AUC score point plot (n<={popsize})', fontsize=13, y=1.1)
-# plt.savefig(plotpath+'Gratings mean AUC score point plot.svg')
+# plt.savefig(plotpath+'Gratings mean AUC score point plot.png')
 plt.show()
 
 #%% Load the movies DataFrame file containing AUROC of all sessions
 
 dfMov = pd.read_csv(datapath+'Decoder_movies_AUC_results_DF.csv')
 
-#%% T tests at each pop size
+#%% Run t tests at each population size between groups
 
 popsize= 25
 
@@ -154,7 +156,7 @@ plt.suptitle(f'Movies mean AUC score box plot (n<={popsize})', fontsize=13, y=1.
 plt.ylim(0.3, 1.0)  # Set y-axis limits
 plt.text(0.5, 0.25, f'nSessionControl: {nSessionControl}', horizontalalignment='center', verticalalignment='center', transform=plt.gca().transAxes)
 plt.text(0.5, 0.20, f'nSessionExp: {nSessionExp}', horizontalalignment='center', verticalalignment='center', transform=plt.gca().transAxes)
-plt.savefig(plotpath+'Movies mean AUC score box plot.svg')
+plt.savefig(plotpath+'Movies mean AUC score box plot.png')
 plt.show()
 
 sns.catplot(data=dfMov[dfMov['Pop Size'] <=popsize], x='Pop Size', y='AUC', 
@@ -162,7 +164,7 @@ sns.catplot(data=dfMov[dfMov['Pop Size'] <=popsize], x='Pop Size', y='AUC',
             errorbar=None)
 
 plt.suptitle(f'Movies mean AUC score point plot (n<={popsize})', fontsize=13, y=1.1)
-plt.savefig(plotpath+'Movies mean AUC score point plot.svg')
+plt.savefig(plotpath+'Movies mean AUC score point plot.png')
 plt.show()
 
 #%% Compare the AUC scores between gratings and movies to show that overall performance is better in movies
@@ -176,6 +178,5 @@ dfMov['Type']='movies'
 dfFinal = pd.concat([dfGrat,dfMov])
 
 sns.catplot(dfFinal[dfFinal['Pop Size']<=25],x='Group',y='AUC',hue='Type',dodge=True,kind='bar')
-sns.catplot(dfFinal[dfFinal['Pop Size']<=25],x='Group',y='AUC',hue='Type',dodge=True,kind='bar')
-plt.savefig(plotpath+'Gratings and movies mean AUC score bar plot.svg')
+# plt.savefig(plotpath+'Gratings and movies mean AUC score bar plot.png')
 plt.show()

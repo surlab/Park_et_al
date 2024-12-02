@@ -24,7 +24,7 @@ from sklearn.metrics import roc_auc_score
 
 # Home directory where the repository is cloned 
 # Make sure to change the information accordingly
-homepath = os.path.join('C:','Users','jihop','Documents','Park_et_al_2024','')
+homepath = os.path.join('C:\\','Users','jihop','Documents','GitHub','Park_et_al_2024','')
 # Directory containing data files
 datapath = os.path.join(homepath,'sample-data','')
 # Directory to save output files
@@ -48,7 +48,6 @@ df = dfMaster.copy()
 # Create a new df containing only natural movies sessions
 dfMov = extract.extract_mov(df)
 dfMov = extract.get_dff(dfMov)
-dfMov = extract.get_rel(dfMov)
 
 #%% Define fixed paramters 
 
@@ -111,8 +110,6 @@ for session in range(len(dfMov)):
 
     # Find the average neural response for each movie (trial)
     unitByTrial = np.reshape(unitConcat, (nUnits, (freqNeuro * tOn), nRepeats))
-    # unitAvgPerTrial = np.mean(unitByTrial, axis=2)
-    # samples = unitAvgPerTrial.T
 
     # For extracting data only last 1s window for decoding
     tWindow = 1

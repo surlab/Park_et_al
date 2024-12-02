@@ -2,6 +2,8 @@
 """
 Created on Wed Nov 27 17:50:06 2024
 
+Script for evaluating the results of single neuron GLM modeling of visual stimulus information and behavior variables 
+
 @author: jihop
 """
 
@@ -12,7 +14,7 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
-from scipy.stats import mannwhitneyu
+from scipy.stats import mannwhitneyu, zscore
 from functions import extract, compute
 
 plt.rcParams['figure.max_open_warning'] = 0
@@ -21,11 +23,9 @@ plt.rcParams['figure.max_open_warning'] = 0
 
 # Home directory where the repository is cloned 
 # Make sure to change the information accordingly
-homepath = os.path.join('C:','Users','jihop','Documents','Park_et_al_2024','')
+homepath = os.path.join('C:\\','Users','jihop','Documents','GitHub','Park_et_al_2024','')
 # Directory containing data files
-datapath = os.path.join(homepath,'sample-data','')
-# Directory to save output files
-savepath = os.path.join(homepath,'results','sample-output','')
+datapath = os.path.join(homepath,'results','sample-output','')
 # Directory to save plots 
 plotpath = os.path.join(homepath,'results','sample-plots','')
 
@@ -47,7 +47,7 @@ for subdir, dirs, files in os.walk(datapath):
             sessionName = fileName[:-16]
             listNames.append(sessionName)
             
-print(f'Number of master files = {len(listFiles)}')
+print(f'Number of data files = {len(listFiles)}')
 
 zippedList = list(zip(listNames,listFiles))
 
@@ -81,12 +81,6 @@ df['Group'] = df['animalID'].apply(extract.get_group)
 
 # Display the DataFrame to verify
 print(df)
-
-# Assuming 'Session' is the column containing session names
-session_to_drop = '221123_mrcuts07_fov1_grat'
-
-# Drop rows with the specified session name
-df = df[df['Session'] != session_to_drop] 
 
 #%% Extract R2_s values
 
@@ -157,7 +151,7 @@ dfR2['pVis'] = dfR2['pVis'].astype(float)
 dfR2['pPupil'] = dfR2['pPupil'].astype(float)
 dfR2['pWheel'] = dfR2['pWheel'].astype(float)
 
-dfR2 = dfR2.drop(columns=['Rez','Adjp'])
+dfR2 = dfR2.drop(columns=['Rez', 'Adjp'])
 dfR2 = dfR2.fillna(0)
 
 #%% Visualize just the R2 values 
@@ -166,49 +160,13 @@ pR2 = compute.mlm_stats(dfR2,'R2').pvalues['Group[T.Exp]']
 
 sns.histplot(dfR2,x='R2',hue='Group',log_scale=True,bins=30)
 plt.title('R2 distribution')
-plt.savefig(plotpath+'R2 distribution (gratings).svg',format='svg')
+plt.savefig(plotpath+'R2 distribution (gratings).png',format='png')
 plt.show()
 
 sns.catplot(dfR2,x='Group',y='R2',kind='bar', errorbar='se')
 plt.title('Average R2')
-plt.savefig(plotpath+'Average R2 (gratings).svg',format='svg')
+plt.savefig(plotpath+'Average R2 (gratings).png',format='png')
 plt.show()
-
-# Plot by session
-
-sns.catplot(dfR2,x='Group',y='R2',hue='Session',kind='point',dodge=True,errorbar='se')
-plt.title('Average R2 by session')
-plt.savefig(plotpath+'Average R2 by sessions.svg',format='svg')
-plt.show()
-
-#%% Calculate percentages
-
-# Percentage of neurons that significantly encode visual stim 
-
-dfPerc = pd.DataFrame()
-dfPerc['Session'] = df['Session']
-dfPerc['Group']=df['Group']
-dfPerc['animalID']=df['animalID']
-dfPerc['Perc'] = pd.NA
-
-
-# Group by 'Session' and count the total number of cells in each session
-session_counts = dfR2.groupby('Session').size()
-
-# Count the number of cells with 'adjp' < 0.05 in each session
-significant_cells = dfR2[dfR2['Adjp'] < 0.05].groupby('Session').size()
-
-# Calculate the percentage
-percentage_significant = (significant_cells / session_counts) * 100
-
-print(percentage_significant)
-
-for session in range(len(dfPerc)):
-    dfPerc['Perc'].iloc[session] = percentage_significant[session]
-    
-dfPerc['Perc'] = dfPerc['Perc'].astype(float)
-
-sns.catplot(dfPerc,x='Group',y='Perc')
 
 #%% Calculate the relative contribution of each variable 
 
@@ -226,10 +184,6 @@ dfR2['dVis'] = dfR2['dR2_vis'] / sum((dfR2['dR2_vis'],dfR2['dR2_pupil'],dfR2['dR
 dfR2['dPupil'] = dfR2['dR2_pupil'] / sum((dfR2['dR2_vis'],dfR2['dR2_pupil'],dfR2['dR2_wheel']))
 dfR2['dWheel'] = dfR2['dR2_wheel'] / sum((dfR2['dR2_vis'],dfR2['dR2_pupil'],dfR2['dR2_wheel']))
 
-# dfR2.loc[dfR2['dVis']<0, 'dVis'] = 0
-# dfR2.loc[dfR2['dPupil']<0, 'dPupil'] = 0
-# dfR2.loc[dfR2['dWheel']<0, 'dWheel'] = 0
-
 dfR2 = dfR2.fillna(0)
 
 dfR2['dR2_vis'] = pd.to_numeric(dfR2['dVis'], errors='coerce')
@@ -237,11 +191,6 @@ dfR2['dR2_pupil'] = pd.to_numeric(dfR2['dPupil'], errors='coerce')
 dfR2['dR2_wheel'] = pd.to_numeric(dfR2['dWheel'], errors='coerce')  
 
 mannwhitneyu(dfR2[dfR2['Group']=='Control']['dR2_wheel'],dfR2[dfR2['Group']=='Exp']['dR2_wheel'])
-
-# np.isinf(dfR2['dR2_vis']).any()
-# compute.mlm_stats(dfR2,'dR2_vis')
-
-from scipy.stats import zscore
 
 # Calculate z-scores
 z_scores = np.abs(zscore(dfR2.select_dtypes(include=[np.number])))
@@ -296,7 +245,7 @@ plt.tight_layout()
 sns.despine()
 
 # Show the plot
-# plt.savefig(plotpath+'Predictor contributions (barplot).svg')
+# plt.savefig(plotpath+'Predictor contributions (barplot).png')
 plt.show() 
 
 #%% Calculate how many of them have R2 >= 0.1
@@ -324,7 +273,7 @@ plt.subplot(1,2,2)
 plt.pie(nR2Exp, labels=labelR2, autopct='%1.1f%%')
 plt.title('Experimental R2 >= 0.1')
 
-plt.savefig(plotpath+'GLM R2 scores larger than 0.1 (gratings).svg', format='svg', dpi=300, bbox_inches='tight')
+# plt.savefig(plotpath+'GLM R2 scores larger than 0.1 (gratings).png', format='png', dpi=300, bbox_inches='tight')
 
 #%% Show the percentage of cells that encode visual stimuli
 
@@ -351,7 +300,7 @@ plt.subplot(1,2,2)
 plt.pie(nR2Exp, labels=labelR2, autopct='%1.1f%%')
 plt.title('Experimental adjp < 0.05')
 
-plt.savefig(plotpath+'Proportion of cells encoding visual stimuli (gratings).svg', format='svg', dpi=300, bbox_inches='tight')
+# plt.savefig(plotpath+'Proportion of cells encoding visual stimuli (gratings).png', format='png', dpi=300, bbox_inches='tight')
 
 #%% Find percentages of cells encoding each parameter 
 
@@ -448,5 +397,5 @@ plt.tight_layout()
 sns.despine()
 
 # Show the plot
-plt.savefig(plotpath+'Proportions of cells encoding different parameters.svg')
+# plt.savefig(plotpath+'Proportions of cells encoding different parameters.png')
 plt.show() 

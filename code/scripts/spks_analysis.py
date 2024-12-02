@@ -6,19 +6,18 @@ Created on Wed Nov 27 15:58:28 2024
 """
 # Import packages needed for running the code
 import os
-import numpy as np
+import ast
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 from scipy.stats import ks_2samp
-import pingouin as pg
 from functions import extract,compute
 
 #%% Define paths
 
 # Home directory where the repository is cloned 
 # Make sure to change the information accordingly
-homepath = os.path.join('C:','Users','jihop','Documents','Park_et_al_2024','')
+homepath = os.path.join('C:\\','Users','jihop','Documents','GitHub','Park_et_al_2024','')
 # Directory containing data files
 datapath = os.path.join(homepath,'sample-data','spks','')
 # Directory to save output files
@@ -30,6 +29,8 @@ plotpath = os.path.join(homepath,'results','sample-plots','')
 
 # Loads spike data of all sessions from datapath
 dfSpks = pd.read_csv(datapath+'spks_data.csv')
+
+dfSpks['Spks'] = dfSpks['Spks'].apply(lambda x: ast.literal_eval(x))
 
 # Set the keyword to filter out sessions (ex. 'spo', 'grat')
 keyword = 'spo'

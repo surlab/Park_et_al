@@ -30,13 +30,10 @@ def load_data(datapath):
     listMovStruct = []
     listPupil = []
     listWheel = []
-    listPupilEvents = []
-    listWheelEvents = []
-    listStates = []
     
     for subdir, dirs, files in os.walk(datapath):
         for file in files:
-            # All files that end with .mat
+            # All files that end with master.mat
             if file.endswith('master.mat'):
                 file_path = os.path.join(subdir, file) 
                 listFiles.append(file_path)
@@ -84,28 +81,10 @@ def load_data(datapath):
                 analysis = None
                 grat = None
                 mov = None
-                print("This file is a spo data!")
+                print("This file contains spo data!")
             
             listGratStruct.append(grat)
             listMovStruct.append(mov)
-            
-            if 'analysis' in master.dtype.fields and 'pupil' in master['analysis'][0][0].dtype.fields and 'wheel' in master['analysis'][0][0].dtype.fields:
-                eventsPupil = master['analysis'][0][0]['pupil'][0][0]['events']
-                eventsWheel = master['analysis'][0][0]['wheel'][0][0]['events']
-            else:
-                eventsPupil = None
-                eventsWheel = None
-                print("This file does NOT have behavior analysis data!")
-            
-            if 'analysis' in master.dtype.fields and 'state' in master['analysis'][0][0].dtype.fields:
-                states = master['analysis'][0][0]['state'][0][0]
-            else:
-                states = None
-                print("This file does NOT have state information!")
-                
-            listPupilEvents.append(eventsPupil)
-            listWheelEvents.append(eventsWheel)
-            listStates.append(states)
             
             # Check if 'pupil' and 'wheel' fields exist in the dataset
             if 'pupil' in data.dtype.fields and 'wheel' in data.dtype.fields:
@@ -136,10 +115,7 @@ def load_data(datapath):
         'GratStruct': listGratStruct,
         'MovStruct': listMovStruct,
         'Pupil': listPupil,
-        'Wheel': listWheel,
-        'PupilStruct': listPupilEvents,
-        'WheelStruct': listWheelEvents,
-        'States': listStates,
+        'Wheel': listWheel
     })
     
     

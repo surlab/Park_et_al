@@ -21,7 +21,7 @@ from functions import extract,compute
 
 # Home directory where the repository is cloned 
 # Make sure to change the information accordingly
-homepath = os.path.join('C:','Users','jihop','Documents','Park_et_al_2024','')
+homepath = os.path.join('C:\\','Users','jihop','Documents','GitHub','Park_et_al_2024','')
 # Directory containing data files
 datapath = os.path.join(homepath,'sample-data','')
 # Directory to save output files
@@ -83,7 +83,7 @@ for session in range(len(dfSpo)):
     plt.xticks(np.arange(0, nFrames, 640), np.arange(0, nFrames, 640) // freqNeuro)
     plt.xlabel('Time (s)')
     plt.title(f'{name}')
-    # plt.savefig(plotpath+f'{name}_heatmap.svg',format='svg')
+    # plt.savefig(plotpath+f'{name}_heatmap.png',format='png')
     sns.despine()
     plt.show()
     
@@ -111,7 +111,7 @@ for session in range(len(dfSpo)):
     plt.ylim([-0.5,1])
     plt.xlabel('Time (s)')
     plt.title(f'{name}')
-    # plt.savefig(plotpath+f'{name}_avgDFF.svg',format='svg')
+    # plt.savefig(plotpath+f'{name}_avgDFF.png',format='png')
     sns.despine()
     plt.show()
     
@@ -151,7 +151,7 @@ for session in range(len(dfMov)):
     sns.heatmap(normalized_dff, cmap=palettable.cmocean.sequential.Gray_20_r.mpl_colormap, 
                 vmin=0, vmax=1)
     plt.title(f'{name}')
-    plt.savefig(plotpath+f'Gratings heatmap {name}',format='png',dpi=300)
+    # plt.savefig(plotpath+f'Gratings heatmap {name}',format='png',dpi=300)
     sns.despine()
     plt.show()
     
@@ -186,7 +186,7 @@ dfVisResp.drop(columns='GratStruct')
 plt.figure(figsize=(7, 10))
 sns.boxenplot(dfVisResp,x='Group',y='maxResp',order=orderGroup,log_scale=False)
 sns.despine()
-plt.savefig(plotpath+'MaxResp comparison (boxenplot).svg',format='svg',dpi=300)
+plt.savefig(plotpath+'MaxResp comparison (boxenplot).png',format='png',dpi=300)
 plt.show()
 
 # Compute the p-value of maxResp values between control and experimental using Linear mixed effects model 
@@ -269,7 +269,7 @@ for ax in axes:
     ax.set_xticklabels(angles_deg)
 
 sns.despine()
-plt.savefig(plotpath+'Average tuning curves of all sessions.svg', dpi=300)
+plt.savefig(plotpath+'Average tuning curves of all sessions.png', dpi=300)
 plt.show()
 
 #%% GRATINGS: Orientation Selectivity Index (OSI) 
@@ -281,7 +281,7 @@ pMlmOSI = compute.mlm_stats(dfVisResp, 'osi').pvalues['Group[T.Exp]']
 sns.catplot(dfVisResp,x='Group',y='OSI',order=orderGroup,
             dodge=True,kind='boxen',height=6,aspect=1)
 plt.title('OSI distribution of all neurons')
-# plt.savefig(plotpath+'OSI distribution of all neurons.svg',dpi=300)
+# plt.savefig(plotpath+'OSI distribution of all neurons.png',dpi=300)
 plt.show()
 
 #%% MOVIES: Reliability indices
@@ -294,5 +294,5 @@ pMlmRel = compute.mlm_stats(dfMov,'rel').pvalues['Group[T.Exp]']
 # Plot
 sns.catplot(dfMov,x='Group',y='Rel',order=orderGroup,kind='boxen',height=10,aspect=1)
 plt.title('Rel indices by neurons')
-# plt.savefig(plotpath+'Rel indices by neurons.svg',dpi=300)
+# plt.savefig(plotpath+'Rel indices by neurons.png',dpi=300)
 plt.show()

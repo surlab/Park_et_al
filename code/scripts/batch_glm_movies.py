@@ -22,7 +22,7 @@ from sklearn.model_selection import train_test_split
 
 # Home directory where the repository is cloned 
 # Make sure to change the information accordingly
-homepath = os.path.join('C:','Users','jihop','Documents','Park_et_al_2024','')
+homepath = os.path.join('C:\\','Users','jihop','Documents','GitHub','Park_et_al_2024','')
 # Directory containing data files
 datapath = os.path.join(homepath,'sample-data','')
 # Directory to save output files
@@ -50,11 +50,15 @@ dfMov = extract.get_dff(dfMov)
 
 #%% BATCH with iterations: Now do the same but with iterations 
 
+# Numbner of frames in a single movies session
 nFrames = 8704
-n_nIters = 30
-tr_nIters = 20
-# Set a limit on number of neurons to be used for all sessions 
+# Set a limit on number of neurons to be sampled from each session 
 nSize = 20
+# Number of iterations to randomly sample from each population
+n_nIters = 30
+# Number of iterations to repeat train & test split and glm fitting 
+tr_nIters = 20
+
 
 resultsDF = pd.DataFrame(columns=['Session','N','Pop Size','R2','Beta'])
 
@@ -92,8 +96,7 @@ for session in range(len(dfMov)):
         
         dm = df.drop(n, axis=0).reset_index(drop=True)
         
-        # testn = list(range(5,nSize+1,5))
-        testn = [nSize]
+        testn = list(range(5,nSize+1,5))
         
         X_train = []
         
@@ -103,10 +106,8 @@ for session in range(len(dfMov)):
         for nt in range(len(testn)):
             test_size = testn[nt]
             
-            
             R2ByN = []
             BetaByN = []
-            # BetaBytrIteration = np.zeros([n_nIters,tr_nIters])
             
             for n_Iter in range(n_nIters):
                 print(f'Sampling iteration: {n_Iter}')
@@ -164,20 +165,18 @@ for session in range(len(dfMov)):
                     glm = Lasso(alpha=0.00005, max_iter=10000)
                     glm.fit(X_train.T, Y_train)
                     
-                    test_r2 = glm.score(X_test.T, Y_test)
-                    
-                    # Manually find r2 from correlation between empirical and predicted 
+                    # Compute variance explained (R^2) by finding correlation coefficient between empirical data and prediction
                     y_hat = glm.predict(X_test.T)
                     corr_coeff = pearsonr(Y_test,y_hat)[0]
                     r2 = corr_coeff**2
+                    # Store each neuron's beta value 
                     weights = glm.coef_
-                    
-                    # results_R2[nt,iteration] = r2
                     
                     R2Iteration.append(r2)
                     betaIteration.append(weights)
                     betaArray = np.vstack(betaIteration)
-                    
+                
+                # Find the average across trial iterations
                 R2Iter = np.mean(R2Iteration)
                 betaIter = np.mean(betaIteration,axis=0)
                 betaIter2 = np.mean(betaArray,axis=0)

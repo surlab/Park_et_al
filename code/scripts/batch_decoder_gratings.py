@@ -25,7 +25,7 @@ from sklearn.metrics import roc_auc_score
 
 # Home directory where the repository is cloned 
 # Make sure to change the information accordingly
-homepath = os.path.join('C:','Users','jihop','Documents','Park_et_al_2024','')
+homepath = os.path.join('C:\\','Users','jihop','Documents','GitHub','Park_et_al_2024','')
 # Directory containing data files
 datapath = os.path.join(homepath,'sample-data','')
 # Directory to save output files
@@ -111,7 +111,6 @@ for session in range(len(dfGrat)):
     n_nIters = 250
     tr_nIters = 100
     results_auc = np.zeros([len(testn), n_nIters, tr_nIters])
-    # results_probs = np.zeros([n_nIters, tr_nIters, 43, 8])
 
     for nt in range(len(testn)):
         n = testn[nt]

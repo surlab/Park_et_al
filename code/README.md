@@ -84,5 +84,6 @@ Each script expects a different kind of input files.
 
 ### Running the script
 For each script, open a Python IDE (or MATLAB for "glm_gratings/"), nagivate to "scripts/" directory and open each script.  
+**Make sure to change ***homepath*** to the user's directory containing the repository in each script**
 Each script is commented in each section for instructions. 
 

@@ -21,7 +21,7 @@ The following packages need to be installed in the environment prior to running 
 ```
 conda activate spyder-env
 ```
-2. Navigate to the parent directory that contains the "functions/" folder, which is within where the repository has been cloned.
+2. Navigate to the parent directory that contains the "functions\" folder, which is within where the repository has been cloned.
 ```
 cd 'path\to\the\parent\directory'
 ```

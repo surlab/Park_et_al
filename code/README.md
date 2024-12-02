@@ -27,7 +27,7 @@ cd 'path\to\the\parent\directory'
 ```
 3. Make sure that both "functions\" and setup.py exist in the directory and run pip install.
 ```
-pip install .
+pip install -e .
 ```
 4. You should see the following message "Successfully installed functions-1.0.0". Now functions should be importable in other scripts.
 

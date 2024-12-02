@@ -66,12 +66,12 @@ Each script expects a different kind of input files.
 1. main_analysis.py, batch_decoder_gratings.py, batch_decoder_movies.py, and batch_glm_movies.py requires master mat files that contain MATLAB structures.
    - The sample master files are in "sample-data/master"
    - Each file ends with "_master.mat"
-2. spks_analysis.py requires a set of npy files that contain deconvolved spike data, cell index.
-   - The sample npy files are in "sample-data/raw"
-   - Each session contains a set of npy files including "spks.npy" and "iscell.npy" 
-3. decoder_eval.py requires csv files that contain the AUC scores of decoding performance for each session
+2. spks_analysis.py requires a csv file that contains deconvolved spike data.
+   - The single csv file is in "sample-data/spks"
+   - The dataframe contains the basic information and spike data for each session. 
+3. decoder_eval.py requires csv files that contain the AUC scores of decoding performance of all sessions
    - The sample csv files are in "sample-data/decoder"
-   - Each file ends with "_auc_scores.csv"
+   - Each file ends with "AUC_results_DF.csv"
 4. glm_movies_eval.py requires csv files that contain GLM results.
    - The sample result files are in "sample-data/glm"
    - Each file ends with "_glm_results_with_weights.csv"

@@ -35,7 +35,7 @@ pip install .
 ## Usage instructions 
 
 ### Overview 
-#### "functions/" contains helper functions used in the main scripts in "scripts/".
+#### "functions/" contains custom-written helper functions used in the main scripts in "scripts/".
 #### "scripts/" contains 8 different files.
 1. main_analysis.py
    - Contains code for basic visualization of 2P calcium activity 

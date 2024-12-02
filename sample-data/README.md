@@ -15,7 +15,7 @@ Make sure to specify the datapath in each script in "code\scripts\" to each of t
    - Each analysis script extracts relevant information from the nested structure for further analyses 
 
 2. "spks\"
-   - Contains a single pickle file that contains the DataFrame for deconvolved spikes data from all sessions.
+   - Contains a single zipped pickle file that contains the DataFrame for deconvolved spikes data from example sessions.
    - This file serves as an input file for spks_analysis.py in "code\scripts\".
    - The DataFrame contains 5 columns:
      | Session  | Spks     | zSpks    | Date     | animalID |

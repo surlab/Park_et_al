@@ -8,17 +8,47 @@ Created on Fri Nov 11 07:53:57 2022
 
 """
 
+This script runs SVM-decoder analysis on each gratings session and saves the output as individual csv files 
+
 """
 
-
 import os
-import glob
 import numpy as np
 import pandas as pd
+from functions import extract
 
 from sklearn.svm import SVC
 from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.metrics import roc_auc_score
+
+#%% Define paths
+
+# Home directory where the repository is cloned 
+# Make sure to change the information accordingly
+homepath = os.path.join('C:','Users','jihop','Documents','Park_et_al_2024','')
+# Directory containing data files
+datapath = os.path.join(homepath,'sample-data','')
+# Directory to save output files
+savepath = os.path.join(homepath,'results','sample-output','')
+# Directory to save plots 
+plotpath = os.path.join(homepath,'results','sample-plots','')
+
+#%% Load the data from MATLAB files in the datapath
+
+# Load all sessions into a single dataframe (this df contains different kinds of visual stimuli sessions)
+dfMaster = extract.load_data(datapath) 
+
+# Categorize the sessions into control and experimental groups
+dfMaster['Group'] = dfMaster['animalID'].apply(extract.get_group)
+
+# Make a copy of the dfMaster as df 
+df = dfMaster.copy()
+
+#%% Extract sessions by visual stimuli (i.e.: spo, grat, mov)
+
+# Create a new df containing only gratings sessions & extract unique values 
+dfGrat = extract.extract_grat(df)
+dfGrat = extract.get_dff(dfGrat)
 
 #%% Define fixed parameters 
 
@@ -31,15 +61,6 @@ tOff = 3;
 t = 640
 num_stim = 8
 labels = ['0','45','90','135','180','225','270','315'] * 16
-
-decoderFolder = os.path.join('/Users','jihopark','Google Drive','My Drive','mrcuts','analysis','decoder','')
-saveFolder = os.path.join('/Users','jihopark','Google Drive','My Drive','mrcuts','analysis','decoder','auc_gratings','')
-
-
-dataFolder = os.path.join('/Users','jihopark','Google Drive','My Drive','mrcuts','analysis','new','')
-
-# Search for CSV files within subfolders
-csvFiles = glob.glob(dataFolder + '**/*grat_neuro.csv', recursive=True)
 
 #%% SVM-decoder 
 
@@ -60,19 +81,14 @@ def fit_svm(X_train, y_train, X_test, y_test):
     # Compute predictive probabilities on test data
     return auc_score, y_pred
 
-#%%
+#%% Batch decoder analysis 
 
-# For loop to process each CSV file
-for csvFile in csvFiles:
-    print('Loading %s' % (csvFile))
-    # Read CSV file
-    dFF = pd.read_csv(csvFile, header=None)
-    dFF.drop(0, inplace=True)
-    data = dFF.to_numpy()
-    data = np.transpose(data)
-    sessionName = csvFile[-35:-10]
-    date = csvFile[-35:-29]
-    animalID = csvFile[-28:-20]
+# For loop to process each session
+for session in range(len(dfGrat)):
+    sessionName = dfGrat['Session'].iloc[session]
+    dff = dfGrat['DFF'].iloc[session]
+    data = np.transpose(dff)
+    animalID = dfGrat['animalID'].iloc[session]
 
     # Reconstruct the dataset to make nUnits * nTrials * 80 
     nUnits = np.shape(data)[1]
@@ -112,7 +128,6 @@ for csvFile in csvFiles:
                                                                     random_state=i, stratify=labels)
                 auc_score, y_pred = fit_svm(X_train, y_train, X_test, y_test)
                 results_auc[nt, j, i] = auc_score
-                # results_probs[j, i, :, :] = y_pred
 
     # Save results into a dataframe 
     resultsDF = pd.DataFrame()
@@ -126,44 +141,12 @@ for csvFile in csvFiles:
             hold['trialIteration'] = np.arange(tr_nIters)
             hold['N'] = nUnits
             hold['Session'] = sessionName
-            hold['Date'] = date
             hold['Animal'] = animalID
             
             resultsDF = pd.concat([resultsDF, hold], ignore_index=True)
     
     fileName = sessionName + '_auc_scores.csv'     
     
-    resultsDF.to_csv(saveFolder+fileName)
+    resultsDF.to_csv(savepath+fileName)
     print('Saved %s' % (sessionName))
     
-#%%
-resultsDF['Date'] = resultsDF['Date'].astype(str)
-
-def get_timepoint(date_value):
-    if date_value == '230116' or date_value == '230117' or date_value == '230118' or date_value == '230120' or date_value == '221005' or date_value == '221006' or date_value == '221123' or date_value == '221126':
-        return 'PRE'
-    elif date_value == '230202':
-        return 'POST (~1wk)'
-    elif date_value == '230208' or date_value == '230209' or date_value == '230211' or date_value == '221214' or date_value == '221216' or date_value == '221025' or date_value == '221026':
-        return 'POST (~2wk)'
-    elif date_value == '230218' or date_value == '230219' or date_value == '221222' or date_value == '221110' or date_value == '221108' or date_value == '221109':
-        return 'POST (~3wk)'
-    else:
-        return None
-    
-    
-def get_group(anID):
-    if anID == 'mrcut316' or anID == 'mrcut318' or anID == 'mrcuts07':
-        return 'Control'
-    elif anID == 'mrcut317' or anID == 'mrcuts13' or anID == 'mrcuts14' or anID == 'mrcuts15' or anID == 'mrcuts16' or anID == 'mrcuts17':
-        return 'Exp'
-    else:
-        return None
-
-resultsDF['Timepoint'] = resultsDF['Date'].apply(get_timepoint)
-resultsDF['Group'] = resultsDF['Animal'].apply(get_group)
-
-fileName = 'grat_auc_scores_2.csv'    
-
-os.chdir(decoderFolder)    
-resultsDF.to_csv(fileName)

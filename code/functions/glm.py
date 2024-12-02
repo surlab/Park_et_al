@@ -4,7 +4,8 @@ Created on Wed Mar 27 15:45:49 2024
 
 @author: jihop
 
-# Contaings GLM functions 
+# Contains GLM functions 
+
 """
 
 import re

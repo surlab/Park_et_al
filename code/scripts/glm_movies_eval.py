@@ -7,54 +7,34 @@ Created on Wed Nov 27 16:05:31 2024
 
 import os
 import sys
-import scipy.io
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-# import pingouin as pg
-from scipy.stats import pearsonr
-# from scipy.interpolate import interp1d
-import re
-# from sklearn.preprocessing import StandardScaler
 from scipy.stats import mannwhitneyu
 
-from sklearn.linear_model import Ridge, TweedieRegressor, Lasso, RidgeCV
-from sklearn.model_selection import train_test_split
-
-sys.path.append('C:\\Users\\jihop\\Documents\\GitHub\\neuron-analysis\\functions\\')
-sys.path.append('/Users/jihopark/Documents/GitHub/neuron-analysis/functions/')
-import extract
-import compute
-
+from functions import extract, compute
 
 # Change the font for plotting
 plt.rcParams['font.family'] = 'Arial'
 
-#%% Define variables  (MAC)
+#%% Define paths
 
-dataType = 'constitutive'
-
-analysisDrive = os.path.join('/Users','jihopark','Google Drive','My Drive','mrcuts','analysis','')
-dataDrive = os.path.join('/Users','jihopark','Google Drive','My Drive','mrcuts','data','master','')
-glmDrive = os.path.join('/Users','jihopark','Google Drive','My Drive','mrcuts','analysis','GLM',dataType,'')
-plotDrive = os.path.join('/Users','jihopark','Google Drive','My Drive','mrcuts','analysis','plots',dataType,'')
-
-
-#%% Define variables  (Windows)
-
-dataType = 'constitutive'
-
-analysisDrive = os.path.join('G:','My Drive','mrcuts','analysis','')
-dataDrive = os.path.join('G:','My Drive','mrcuts','data','master','')
-glmDrive = os.path.join('G:','My Drive','mrcuts','analysis','GLM',dataType,'')
-plotDrive = os.path.join('G:','My Drive','mrcuts','analysis','plots',dataType,'')
+# Home directory where the repository is cloned 
+# Make sure to change the information accordingly
+homepath = os.path.join('C:','Users','jihop','Documents','Park_et_al_2024','')
+# Directory containing data files
+datapath = os.path.join(homepath,'sample-data','')
+# Directory to save output files
+savepath = os.path.join(homepath,'results','sample-output','')
+# Directory to save plots 
+plotpath = os.path.join(homepath,'results','sample-plots','')
 
 #%% Read all files
 
 glmFiles = []
 
-for subdir, dirs, files in os.walk(glmDrive):
+for subdir, dirs, files in os.walk(datapath):
     for file in files:
         if file.endswith('_glm_results_with_weights.csv'):
             file_path = os.path.join(subdir, file) 
@@ -94,13 +74,9 @@ dfMaster = extract.get_animalID(dfMaster)
 
 dfMaster['Group'] = dfMaster['animalID'].apply(extract.get_group)
 
-# Filter out the problematic sessions based on heatmaps (ROI labeling seems to be off)
-sessions_to_drop = ['230809_mrcuts28_fov4_mov','230804_mrcuts26_fov3_mov']
-df = dfMaster[~dfMaster['Session'].isin(sessions_to_drop)].reset_index(drop=True)
-
 #%% Treat each beta as an individual point 
 
-dfSample = df.explode(['Beta'])
+df = dfMaster.explode(['Beta'])
 
 #%% Let's get the average or (?) of the beta weights across the trial iterations for each neuron
 
@@ -240,7 +216,7 @@ plt.title('Proportion of Cells by BetaMax (Control vs Exp)')
 plt.ylabel('Proportion')
 plt.xticks(rotation=0)
 plt.legend(title='Group')
-plt.savefig(plotDrive+'Proportion of cells by BetaMax (GLM movies) (individual bars).svg', format='svg')
+plt.savefig(plotpath+'Proportion of cells by BetaMax (GLM movies) (individual bars).svg', format='svg')
 plt.show()
 
 # Normalize the data to sum to 1 for each group
@@ -267,7 +243,7 @@ ax.set_ylabel('Proportion')
 ax.set_title('Proportion of Cells by BetaMax Range and Group')
 ax.legend(title='BetaMax Range')
 plt.xticks(rotation=0)
-fig.savefig(plotDrive+'Proportion of cells by BetaMax (GLM movies) (stacked bar).svg', format='svg')
+fig.savefig(plotpath+'Proportion of cells by BetaMax (GLM movies) (stacked bar).svg', format='svg')
 fig.show()
 
 #%% Plot (if Pop Size exists)
@@ -332,23 +308,20 @@ plt.show()
 g = sns.displot(df, x='R2', hue='Group', log_scale=True, kde=True)
 
 plt.title('GLM R2 distribution p=20 (GLM movies)')
-plt.savefig(plotDrive+'GLM R2 distribution p=20 (GLM movies).svg')
+plt.savefig(plotpath+'GLM R2 distribution p=20 (GLM movies).svg')
 plt.show()
 
 
 #%% Average comparison
 
-
-# sns.catplot(df,x='Pop Size',y='R2',hue='Group',kind='boxen',log_scale=False)
 sns.catplot(df[df['Pop Size']==20],x='Group',y='R2',kind='bar',errorbar='se')
-plt.savefig(plotDrive+'GLM R2 at n = 20 (bar).svg')
+plt.savefig(plotpath+'GLM R2 at n = 20 (bar).svg')
 plt.show()
-
 
 #%% By session plotting
 
 sns.catplot(df,x='Group',y='R2',hue='Session',kind='point',dodge=True)
-plt.savefig(plotDrive+'Average GLM R2 comparison by session at p=20 (GLM movies).svg')
+plt.savefig(plotpath+'Average GLM R2 comparison by session at p=20 (GLM movies).svg')
 plt.show()
 
 #%% Statistical test between BetaMax values

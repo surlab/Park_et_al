@@ -7,36 +7,27 @@ Created on Wed Nov 27 17:50:06 2024
 
 # Import the functions that I need 
 import os
-import re
-import sys
+import scipy.io
 import numpy as np
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
-from scipy.stats import mannwhitneyu, ks_2samp, sem, wilcoxon
-sys.path.append('C:\\Users\\jihop\\Documents\\GitHub\\neuron-analysis\\functions\\')
-sys.path.append('/Users/jihopark/Documents/GitHub/neuron-analysis/functions/')
-import extract
-import compute
-import plot
-import glm
-import palettable 
-import pingouin as pg
-from scipy.interpolate import interp1d
-import scipy.io
-# from sklearn.cluster import KMeans
+from scipy.stats import mannwhitneyu
+from functions import extract, compute
 
 plt.rcParams['figure.max_open_warning'] = 0
 
 #%% Define paths
 
-# Windows
-datapath = os.path.join('G:','My Drive','mrcuts','analysis','yuma_glm','')
-plotpath = os.path.join('G:','My Drive','mrcuts','analysis','yuma_glm','plots','')
-
-# MAC
-datapath = os.path.join('/Users','jihopark','Google Drive','My Drive','mrcuts','analysis','yuma_glm','')
-plotpath = os.path.join('/Users','jihopark','Google Drive','My Drive','mrcuts','analysis','yuma_glm','plots','')
+# Home directory where the repository is cloned 
+# Make sure to change the information accordingly
+homepath = os.path.join('C:','Users','jihop','Documents','Park_et_al_2024','')
+# Directory containing data files
+datapath = os.path.join(homepath,'sample-data','')
+# Directory to save output files
+savepath = os.path.join(homepath,'results','sample-output','')
+# Directory to save plots 
+plotpath = os.path.join(homepath,'results','sample-plots','')
 
 #%% Load data
 
@@ -75,7 +66,6 @@ for n in range(len(zippedList)):
     # listNames.append(fileName)
     listRez.append(rez)
     listAdjp.append(adjp)
-    
     
 #%% Combine the data into one dataframe
 
@@ -146,14 +136,7 @@ for session in range(len(dfR2)):
         listPpupil.append(pPupil)
         listPwheel.append(pWheel)
     
-    # dfR2.loc[session,'R2'] = listR2
-    # dfR2.loc[session,'R2_vis'] = listR2vis
-    # dfR2.loc[session,'R2_pupil'] = listR2pupil
-    # dfR2.loc[session,'R2_wheel'] = listR2wheel
-    # dfR2.loc[session,'pVis'] = listPvis
-    # dfR2.loc[session,'pPupil'] = listPpupil
-    # dfR2.loc[session,'pWheel'] = listPwheel    
-    
+
     dfR2['R2'].iloc[session] = listR2
     dfR2['R2_vis'].iloc[session] = listR2vis
     dfR2['R2_pupil'].iloc[session] = listR2pupil
@@ -176,7 +159,6 @@ dfR2['pWheel'] = dfR2['pWheel'].astype(float)
 
 dfR2 = dfR2.drop(columns=['Rez','Adjp'])
 dfR2 = dfR2.fillna(0)
-
 
 #%% Visualize just the R2 values 
 

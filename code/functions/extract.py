@@ -37,7 +37,7 @@ def load_data(datapath):
     for subdir, dirs, files in os.walk(datapath):
         for file in files:
             # All files that end with .mat
-            if file.endswith('.mat'):
+            if file.endswith('master.mat'):
                 file_path = os.path.join(subdir, file) 
                 listFiles.append(file_path)
 

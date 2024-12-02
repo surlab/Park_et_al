@@ -10,10 +10,9 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
-from scipy.stats import mannwhitneyu, ks_2samp, sem, wilcoxon
-import palettable 
+from scipy.stats import ks_2samp
 import pingouin as pg
-from functions import extract,compute,plot,glm
+from functions import extract,compute
 
 #%% Define paths
 
@@ -44,29 +43,32 @@ freqNeuro = 16  # Neuro data sampling frequency (Hz)
 timeBin = 0.1  # Time bin in seconds (100 ms)
 threshold = 5 
 
-# Compute the firing rate of single neurons
+# Compute the firing rate of single neurons using compute.get_fr
 df = compute.get_fr(df,tDur,freqNeuro,timeBin,threshold)
 dfFR = df.explode(['FR'])
 dfFR['FR'] = dfFR['FR'].astype(float)
 
 #%% SPONTANEOUS ACTIVITY: Plot the firing rates of single neurons
 
+# Define order of groups for plotting
+orderGroup = ['Control','Exp']
+
+# Compute the p value of firing rates between the two groups
+pMlmFR = compute.mlm_stats(dfFR, 'fr').pvalues['Group[T.Exp]']
+
 # Plot the average firing rates of all neurons in each group
 plt.figure(figsize=(5,5))
 sns.barplot(dfFR,x='Group',y='FR',order=orderGroup)
 plt.ylim([1.3,1.95])
+plt.text(3,1.1,f"pval={pMlmFR:0.3E}")
 plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
 sns.despine()
 plt.savefig(plotpath+'Firing rates average.svg')
 plt.show()
 
-# Compute the p value of firing rates between the two groups
-pMlmFR = compute.mlm_stats(dfFR, 'fr').pvalues['Group[T.Exp]']
-
 # Plot an empirical cumulative density function 
 plt.figure(figsize=(10,7))
 sns.ecdfplot(dfFR,x='FR',hue='Group')
-plt.text(3,1.1,f"pval={pFR:0.3E}")
 sns.despine()
 plt.title('Firing rates',y=1.2,fontsize=15)
 plt.savefig(plotpath+'Firing rates (ECDF).svg')
@@ -79,6 +81,7 @@ sessDur = 640
 freqNeuro = 16
 nShuffles = 100
 
+# COmpute the pairwise correlation using compute.get_pairwise_corr 
 df = compute.get_pairwise_corr(df,freqNeuro,sessDur,nShuffles)
 dfCorr = df.explode(['Coeff','CoeffShuffled'])
 
@@ -92,10 +95,6 @@ dfCorr.to_csv(savepath+'Spo_pairwise_correlations.csv')
 
 dfCorr['Coeff'] = dfCorr['Coeff'].astype(float)
 dfCorr['CoeffShuffled'] = dfCorr['CoeffShuffled'].astype(float)
-
-dv = 'Coeff'
-plottype = 'bar'
-plot.plot_with_pval(dfCorr,dv,plottype,orderGroup)
 
 pCorr = ks_2samp(dfCorr[dfCorr['Group']=='Control']['Coeff'], dfCorr[dfCorr['Group']=='Exp']['Coeff']).pvalue
 pCorrShuffled = ks_2samp(dfCorr[dfCorr['Group']=='Control']['CoeffShuffled'], dfCorr[dfCorr['Group']=='Exp']['CoeffShuffled']).pvalue
@@ -168,15 +167,26 @@ sns.histplot(dfCorr[dfCorr['Condition']=='Post'],x='CoeffShuffled',
              bins=60,color='lightgray',log_scale=True)
 sns.despine()
 plt.xlim([0.000001,0.5])
-#%% Now let's look at movies Spks data
 
+
+#%% MOVIES: signal and noise correlation 
+
+# Extract movies sessions from the spikes dataframe 
 stimType = 'mov'
-
 df = extract.get_session(dfSpks,stimType)
 
+#%% MOVIES: Signal & noise correlation 
 
-#%% Get SIGNAL & NOISE correlations (MOV)
 
+"""
+
+Signal correlation quantifies tuning similarity between neurons
+
+Noise correlations measures co-fluctuation of trial-to-trial variability
+
+"""
+
+# Define parameters
 freqNeuro = 16
 tOff = 3
 tOn = 2
@@ -185,23 +195,22 @@ nFrames = 8704
 nStim = 7
 nShuffles = 100
 
+# Compute noise and signal correlation 
 df = compute.get_noise_corr(df,freqNeuro,tOff,tOn,nTrials,nFrames,nStim,nShuffles,plotpath)
 df = compute.get_signal_corr(df,freqNeuro,tOff,tOn,nTrials,nFrames,nStim,nShuffles,plotpath)
 dfCorr = df.explode(['NoiseCoeff','NoiseCoeffShuffled','SignalCoeff','SignalCoeffShuffled'])
 
+# Save the output as csv
 dfCorr.to_csv(savepath+'Noise and signal correlations (mov).csv')
 
+# Load the data from saved output it needed
 dfCorr = pd.read_csv(savepath+'Noise and signal correlations (mov).csv')
 dfCorr = dfCorr.drop('Unnamed: 0',axis=1)
 
-# Drop a probablematic session 
-session_to_drop = '230809_mrcuts28_fov4_mov-000'
-sessions_to_drop = ['230809_mrcuts28_fov4_mov-000','230804_mrcuts26_fov3_mov-000']
-dfCorr = dfCorr[~dfCorr['Session'].isin(sessions_to_drop)]
-
+# Remove spks data for convenience  
 dfCorr = dfCorr.drop(columns=['Spks','zSpks'])
 
-#%% Plot noise correlations
+#%% MOVIES: Plot noise correlations
 
 dfCorr['NoiseCoeff'] = dfCorr['NoiseCoeff'].astype(float)
 dfCorr['NoiseCoeffShuffled'] = dfCorr['NoiseCoeffShuffled'].astype(float)
@@ -216,10 +225,6 @@ plt.figure(figsize=(10,10))
 sns.ecdfplot(dfCorr,x='NoiseCoeff',hue='Group',log_scale=True)
 plt.title('Noise correlations (mov) ecdf')
 plt.show()
-
-dv = 'NoiseCoeff'
-plottype = 'bar'
-plot.plot_with_pval(dfCorr,dv,plottype,orderGroup)
 
 pMlmNoise = compute.mlm_stats(dfCorr, 'noise').pvalues['Group[T.Exp]']
 pKSNoise = ks_2samp(dfCorr[dfCorr['Group']=='Control']['NoiseCoeff'],dfCorr[dfCorr['Group']=='Exp']['NoiseCoeff']).pvalue
@@ -237,7 +242,7 @@ sns.despine()
 # plt.savefig(plotpath+'ECDF plot of noise correlation coefficients.svg')
 plt.show()
 
-#%% Plot signal correlations
+#%% MOVIES: Plot signal correlations
 
 dfCorr['SignalCoeff'] = dfCorr['SignalCoeff'].astype(float)
 dfCorr['SignalCoeffShuffled'] = dfCorr['SignalCoeffShuffled'].astype(float)
@@ -250,10 +255,6 @@ plt.show()
 
 sns.ecdfplot(dfCorr,x='SignalCoeff',hue='Group',log_scale=True)
 plt.title('Signal correlations (mov) ecdf')
-
-dv = 'SignalCoeff'
-plottype = 'bar'
-plot.plot_with_pval(dfCorr,dv,plottype,orderGroup)
 
 pMlmSignal = compute.mlm_stats(dfCorr, 'signal').pvalues['Group[T.Exp]']
 
@@ -269,7 +270,7 @@ sns.despine()
 plt.savefig(plotpath+'ECDF plot of signal correlation coefficients.svg')
 plt.show()
 
-#%% Plot Signal and Noise Correlations side by side 
+#%% MOVIES: Plot Signal and Noise Correlations side by side 
 
 fig, axes = plt.subplots(nrows=2,ncols=2,figsize=(10,8),sharey=True)
 
